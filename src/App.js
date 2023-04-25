@@ -2,34 +2,33 @@ import React, { useState } from "react";
 
 const App = () => {
   const [Task, setTask] = useState("");
-  const [Description, setDescription] = useState("");
-  const [todos, setTodo] = useState([]);
-  console.log("Hello");
+  const [Detail, setDetail] = useState("");
+  const [todos, setTodos] = useState([]);
 
-  const SubmitTask = function () {
-    if (Task === "" || Description === "") {
-      alert("Empty Fields");
+  function SubmitTask(event) {
+    event.preventDefault();
+
+    if (Task === "" || Detail === "") {
+      alert("Fill Required Details");
       return;
     }
 
-    //Add to Database
-    const newTodo = {
+    const newtodos = {
       id: todos.length + 1,
       Task,
-      Description,
+      Detail,
     };
-    setTodo([...todos, newTodo]);
-    setTask("");
-    setDescription("");
-  };
 
+    setTodos(...todos, newtodos);
+    setTask("");
+    setDetail("");
+  }
   return (
     <div>
-      <form>
+      <form onSubmit={SubmitTask}>
         <label>Title</label>
         <input
           type="text"
-          placeholder="Todo Task"
           onChange={(event) => {
             setTask(event.target.value);
           }}
@@ -37,21 +36,19 @@ const App = () => {
         <label>Description</label>
         <input
           type="text"
-          placeholder="Description"
           onChange={(event) => {
-            setDescription(event.target.value);
+            setDetail(event.target.value);
           }}
         ></input>
 
-        <button type="submit" onSubmit={SubmitTask}>
-          Submit
-        </button>
+        <button type="submit">Submit</button>
       </form>
+
       <ul>
-        {todos.map((App, id) => {
-          <li key={App.id}>
-            <p>{App.Task}</p>
-            <p>{App.Description}</p>
+        {todos.map((todo, index) => {
+          <li key={todo.id}>
+            <p>{todo.Task}</p>
+            <p>{todo.Detail}</p>
           </li>;
         })}
       </ul>
