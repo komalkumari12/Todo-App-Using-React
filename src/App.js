@@ -19,16 +19,23 @@ const App = () => {
       Detail,
     };
 
-    setTodos(...todos, newtodos);
+    setTodos([...todos, newtodos]);
     setTask("");
     setDetail("");
   }
+
+  function deleteTodo(id) {
+    const newTodos = todos.filter((todo) => todo.id !== id);
+    setTodos(newTodos);
+  }
+
   return (
     <div>
       <form onSubmit={SubmitTask}>
         <label>Title</label>
         <input
           type="text"
+          value={Task}
           onChange={(event) => {
             setTask(event.target.value);
           }}
@@ -36,6 +43,7 @@ const App = () => {
         <label>Description</label>
         <input
           type="text"
+          value={Detail}
           onChange={(event) => {
             setDetail(event.target.value);
           }}
@@ -46,10 +54,15 @@ const App = () => {
 
       <ul>
         {todos.map((todo, index) => {
-          <li key={todo.id}>
-            <p>{todo.Task}</p>
-            <p>{todo.Detail}</p>
-          </li>;
+          return (
+            <li key={todo.id}>
+              <p>{todo.Task}</p>
+              <p>{todo.Detail}</p>
+              <button type="button" onClick={() => deleteTodo(todo.id)}>
+                Delete
+              </button>
+            </li>
+          );
         })}
       </ul>
     </div>
